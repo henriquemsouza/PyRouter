@@ -1,4 +1,6 @@
+# coding=utf-8
 import subprocess, shlex,os,sys ,Made_Folder ,getpass
+
 from Tkinter import *
 from tkMessageBox import *
 
@@ -37,18 +39,39 @@ def load():
     ass = showwarning('Connection start', 'configuracao previamente definida carregada com sucesso\n'+definition)
 
 def printVal():
-    sw = Label(root, text="Rede: "+str(E4.get()), font=(20))
+    sw = Label(root, text="Rede: "+str(E3.get()), font=(20))
     sw.pack()
     sw.grid(row = 5, column = 3, )
-
 
 def combine():
     Made_rot()
     writeconf()
     printVal()
 
+def About():
+    cpright=u'©'.encode('utf-8')
+    ass = showwarning('About', 'Desenvolvido por:\n Henrique Martins de Souza \n'+cpright +'2017')
+
+def ConfigOpen():
+    if os.path.isfile(completeName):
+        subprocess.call(['notepad.exe',completeName])
+    else:
+        warend = showwarning('Warning', 'Configuration files does not exist yet')
 
 root = Tk()
+menu = Menu(root)
+root.config(menu=menu)
+filemenu = Menu(menu, tearoff=False)
+
+menu.add_cascade(label="Functions", menu=filemenu)
+
+filemenu.add_command(label="Config", command=ConfigOpen)
+filemenu.add_command(label="Exit", command=root.quit)
+
+helpmenu = Menu(menu, tearoff=False)
+menu.add_cascade(label="About", menu=helpmenu)
+helpmenu.add_command(label="About", command=About)
+
 
 w = Label(root, text="PyRouter",font=(20))
 w.pack()
@@ -77,7 +100,7 @@ E4.grid(row=3, column=3)
 
 root.geometry("700x200")
 
-root.wm_iconbitmap('icWifi.ico')
-root.title("PyRouter v0.3")
+root.wm_iconbitmap(bitmap = 'icWifi.ico')
+root.title("PyRouter v0.5")
 root.resizable(width=False, height=False)
 root.mainloop()
