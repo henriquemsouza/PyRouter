@@ -8,6 +8,7 @@ obj = Made_Folder.makeFolder()
 obj.path_folder()
 savepath=str(os.path.join(*["C:/Users/"+getpass.getuser()+"/Documents/PyROUTER/"]))
 completeName=str(os.path.join(savepath+"router.txt"))
+connLISTA=str(os.path.join(savepath+"conn.txt"))
 def Made_rot():
     namered=str(E3.get())
     EnPass=str(E4.get())
@@ -58,6 +59,13 @@ def ConfigOpen():
     else:
         warend = showwarning('Warning', 'Configuration files does not exist yet')
 
+def connlist():
+    file = open(connLISTA, 'w')
+    DISPLAY=str(subprocess.call('netsh wlan show hostednetwork'))
+    file.write(DISPLAY)
+    file.close()
+    warend = showwarning('Warning', DISPLAY)
+
 root = Tk()
 menu = Menu(root)
 root.config(menu=menu)
@@ -66,6 +74,7 @@ filemenu = Menu(menu, tearoff=False)
 menu.add_cascade(label="Functions", menu=filemenu)
 
 filemenu.add_command(label="Config", command=ConfigOpen)
+filemenu.add_command(label="Conectados", command=connlist)
 filemenu.add_command(label="Exit", command=root.quit)
 
 helpmenu = Menu(menu, tearoff=False)
