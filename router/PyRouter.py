@@ -1,9 +1,10 @@
 # coding=utf-8
-import subprocess, shlex,os,sys ,Made_Folder ,getpass
-
+import subprocess, shlex,os,sys ,Made_Folder ,getpass , threading, datetime
+from subprocess import *
 from Tkinter import *
 from tkMessageBox import *
 
+counter = 0
 obj = Made_Folder.makeFolder()
 obj.path_folder()
 savepath=str(os.path.join(*["C:/Users/"+getpass.getuser()+"/Documents/PyROUTER/"]))
@@ -60,11 +61,34 @@ def ConfigOpen():
         warend = showwarning('Warning', 'Configuration files does not exist yet')
 
 def connlist():
-    file = open(connLISTA, 'w')
-    DISPLAY=str(subprocess.call('netsh wlan show hostednetwork'))
-    file.write(DISPLAY)
-    file.close()
-    warend = showwarning('Warning', DISPLAY)
+    log = open(connLISTA, 'w')
+    log.flush()
+    subprocess.call('netsh wlan show hostednetwork', stdout=log, shell=True)
+    subprocess.Popen(["notepad.exe", connLISTA])
+
+
+
+def count():
+    global counter
+    counter += 1
+   # text=str(counter)
+
+
+def refre():
+    global op
+    op=threading.Timer(900, refre)
+    op.start()
+    subprocess.call('netsh wlan stop hostednetwork', shell=True)
+    subprocess.call('netsh wlan start hostednetwork', shell=True)
+    #threading.Timer(900, refre).start()
+    #print "Hello,: "+str(datetime.datetime.now().time())
+def refreEND():
+    op.cancel()
+    #print "end,: "+str(datetime.datetime.now().time())
+
+
+
+
 
 root = Tk()
 menu = Menu(root)
@@ -74,13 +98,18 @@ filemenu = Menu(menu, tearoff=False)
 menu.add_cascade(label="Functions", menu=filemenu)
 
 filemenu.add_command(label="Config", command=ConfigOpen)
-filemenu.add_command(label="Conectados", command=connlist)
+filemenu.add_command(label="info Rede", command=connlist)
+filemenu.add_command(label="Refresh After 15 min", command=refre)
+filemenu.add_command(label="Stop Refresh", command=refreEND)
 filemenu.add_command(label="Exit", command=root.quit)
 
 helpmenu = Menu(menu, tearoff=False)
 menu.add_cascade(label="About", menu=helpmenu)
 helpmenu.add_command(label="About", command=About)
 
+#alop = count()
+
+#print str(counter)
 
 w = Label(root, text="PyRouter",font=(20))
 w.pack()
@@ -110,6 +139,6 @@ E4.grid(row=3, column=3)
 root.geometry("700x200")
 
 root.wm_iconbitmap(bitmap = 'icWifi.ico')
-root.title("PyRouter v0.5")
+root.title("PyRouter v0.7")
 root.resizable(width=False, height=False)
 root.mainloop()

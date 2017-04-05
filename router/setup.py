@@ -12,7 +12,7 @@ if sys.platform == "win32":
     base = "Win32GUI"
 
 setup(  name = "PyRouter",
-        version = "0.5",
+        version = "0.7",
         description = "Simple Virtual router made with python 2.x" ,
         options = {"build_exe": build_exe_options},
         author="Henrique Martins de Souza",
