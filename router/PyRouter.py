@@ -139,6 +139,6 @@ E4.grid(row=3, column=3)
 root.geometry("700x200")
 
 root.wm_iconbitmap(bitmap = 'icWifi.ico')
-root.title("PyRouter v0.7")
+root.title("PyRouter v0.8")
 root.resizable(width=False, height=False)
 root.mainloop()
