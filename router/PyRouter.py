@@ -1,5 +1,5 @@
 # coding=utf-8
-import subprocess, shlex,os,sys ,Made_Folder ,getpass , threading, datetime
+import subprocess, shlex,os,sys ,Made_Folder ,getpass , threading
 from subprocess import *
 from Tkinter import *
 from tkMessageBox import *
@@ -52,7 +52,7 @@ def combine():
 
 def About():
     cpright=u'©'.encode('utf-8')
-    ass = showwarning('About', 'Desenvolvido por:\n Henrique Martins de Souza \n'+cpright +'2017')
+    ass = showinfo('Developer', 'Desenvolvido por:\n Henrique Martins de Souza \n'+cpright +'2017')
 
 def ConfigOpen():
     if os.path.isfile(completeName):
@@ -65,8 +65,6 @@ def connlist():
     log.flush()
     subprocess.call('netsh wlan show hostednetwork', stdout=log, shell=True)
     subprocess.Popen(["notepad.exe", connLISTA])
-
-
 
 def count():
     global counter
@@ -86,6 +84,18 @@ def refreEND():
     op.cancel()
     #print "end,: "+str(datetime.datetime.now().time())
 
+def reload():
+    subprocess.call('netsh wlan stop hostednetwork', shell=True)
+    ass = showwarning('Connection', 'reload')
+    #.after(30000, lambda: ass.destroy())
+    subprocess.call('netsh wlan start hostednetwork', shell=True)
+
+def helpuser():
+    netmsg="\aPara compartilhar sua conexão de internet com  o hotspot\a\n \n1º Central de Rede e Compartilhamento e clique em Alterar as configurações do adaptador.\n2º Clique com o botão direito em cima da conexão que você usa para se conectar à internet e selecione a opção Propriedades. \n3º Nas Propriedades, vá na aba Compartilhamento e marque a caixa Permitir que outros usuários da rede se conectem pela conexão desse computador à Internet e selecione o nome da conexão de rede que é usado pelo seu hotspot Salve as alterações."
+    msguser = showinfo("Ajuda", netmsg)
+
+
+
 
 
 
@@ -99,12 +109,14 @@ menu.add_cascade(label="Functions", menu=filemenu)
 
 filemenu.add_command(label="Config", command=ConfigOpen)
 filemenu.add_command(label="info Rede", command=connlist)
+filemenu.add_command(label="Reiniciar", command=reload)
 filemenu.add_command(label="Refresh After 15 min", command=refre)
 filemenu.add_command(label="Stop Refresh", command=refreEND)
 filemenu.add_command(label="Exit", command=root.quit)
 
 helpmenu = Menu(menu, tearoff=False)
-menu.add_cascade(label="About", menu=helpmenu)
+menu.add_cascade(label="Ajuda", menu=helpmenu)
+helpmenu.add_command(label="Help", command=helpuser)
 helpmenu.add_command(label="About", command=About)
 
 #alop = count()
@@ -129,6 +141,7 @@ Button(root, text='Iniciar', command=combine).grid(row=4, column=3, sticky=W, pa
 Button(root, text='Desconectar', command=End_rot).grid(row=4, column=2, sticky=W, pady=5)
 Button(root, text='Carregar', command=load).grid(row=5, column=2, sticky=W, pady=5)
 
+
 E3 = Entry(root)
 E3["width"]=100
 E3.grid(row=2, column=3)
@@ -139,6 +152,6 @@ E4.grid(row=3, column=3)
 root.geometry("700x200")
 
 root.wm_iconbitmap(bitmap = 'icWifi.ico')
-root.title("PyRouter v0.8")
+root.title("PyRouter v0.9")
 root.resizable(width=False, height=False)
 root.mainloop()
