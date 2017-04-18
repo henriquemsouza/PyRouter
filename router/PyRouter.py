@@ -33,12 +33,15 @@ def writeconf ():
     file.write(RouterDef)
     file.close()
 def load():
-    file = open(completeName)
-    definition=str(file.read())
-    print(definition)
-    subprocess.call(definition, shell=True)
-    subprocess.call('netsh wlan start hostednetwork', shell=True)
-    ass = showwarning('Connection start', 'configuracao previamente definida carregada com sucesso\n'+definition)
+    if os.path.isfile(completeName):
+        file = open(completeName)
+        definition=str(file.read())
+        print(definition)
+        subprocess.call(definition, shell=True)
+        subprocess.call('netsh wlan start hostednetwork', shell=True)
+        aload = showwarning('Connection start', 'configuracao previamente definida carregada com sucesso\n'+definition)
+    else:
+        warload = showwarning('Warning', 'Configuration files does not exist yet')
 
 def printVal():
     sw = Label(root, text="Rede: "+str(E3.get()), font=(20))
@@ -110,8 +113,9 @@ menu.add_cascade(label="Functions", menu=filemenu)
 filemenu.add_command(label="Config", command=ConfigOpen)
 filemenu.add_command(label="info Rede", command=connlist)
 filemenu.add_command(label="Reiniciar", command=reload)
-filemenu.add_command(label="Refresh After 15 min", command=refre)
-filemenu.add_command(label="Stop Refresh", command=refreEND)
+#comment for LG QE Team version
+#filemenu.add_command(label="Refresh After 15 min", command=refre)
+#filemenu.add_command(label="Stop Refresh", command=refreEND)
 filemenu.add_command(label="Exit", command=root.quit)
 
 helpmenu = Menu(menu, tearoff=False)
@@ -152,6 +156,6 @@ E4.grid(row=3, column=3)
 root.geometry("700x200")
 
 root.wm_iconbitmap(bitmap = 'icWifi.ico')
-root.title("PyRouter v0.9")
+root.title("PyRouter v0.10")
 root.resizable(width=False, height=False)
 root.mainloop()
