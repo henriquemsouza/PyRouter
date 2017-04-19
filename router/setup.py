@@ -19,7 +19,8 @@ shortcut_table = [
     ]
 
 msi_data = {"Shortcut": shortcut_table}
-bdist_msi_options = {'data': msi_data}
+bdist_msi_options = {'data': msi_data#,"upgrade-code":"{96a85bac-52af-4019-9e94-3afcc9e1ad0c}"
+                     }
 # Dependencies are automatically detected, but it might need fine tuning.
 build_exe_options = {"packages": ["os"], "include_files": ["icWifi.ico",r'C:\Python27\tcl\tk8.5',r'C:\Python27\tcl\tcl8.5',r'C:\Users\brisatc435.souza\Documents\apks\git\PyRouter\router\icWifi.ico']}
 
@@ -32,7 +33,7 @@ if sys.platform == "win32":
 
 
 setup(  name = "PyRouter",
-        version = "0.10",
+        version = "0.11",
         description = "Simple Virtual router made with python 2.x" ,
         options = {"build_exe": build_exe_options, "bdist_msi": bdist_msi_options},
         author="Henrique Martins de Souza",

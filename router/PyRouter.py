@@ -9,6 +9,7 @@ obj = Made_Folder.makeFolder()
 obj.path_folder()
 savepath=str(os.path.join(*["C:/Users/"+getpass.getuser()+"/Documents/PyROUTER/"]))
 completeName=str(os.path.join(savepath+"router.txt"))
+NameRede=str(os.path.join(savepath+"NameWifi.txt"))
 connLISTA=str(os.path.join(savepath+"conn.txt"))
 def Made_rot():
     namered=str(E3.get())
@@ -29,9 +30,22 @@ def writeconf ():
     namered = str(E3.get())
     EnPass = str(E4.get())
     RouterDef = os.path.join(*['netsh wlan set hostednetwork mode=allow ssid=' + namered + ' key=' + EnPass + ' keyusage=persistent'])
-    file = open(completeName, 'w')
+    NameDef = os.path.join(*[namered])
+    file = open(completeName, 'w')#write the config of  the wifi to .txt
     file.write(RouterDef)
     file.close()
+    file = open(NameRede, 'w') #Write  the name of the wifi to .txt
+    file.write(NameDef)
+    file.close()
+def displaynameonload():
+    file = open(NameRede)
+    defDisplay = str(file.read())
+    sw = Label(root, text="Rede: " + defDisplay, font=(20))
+    sw.pack()
+    sw.grid(row=5, column=3, )
+
+
+
 def load():
     if os.path.isfile(completeName):
         file = open(completeName)
@@ -40,6 +54,8 @@ def load():
         subprocess.call(definition, shell=True)
         subprocess.call('netsh wlan start hostednetwork', shell=True)
         aload = showwarning('Connection start', 'configuracao previamente definida carregada com sucesso\n'+definition)
+        displaynameonload();
+
     else:
         warload = showwarning('Warning', 'Configuration files does not exist yet')
 
@@ -55,7 +71,7 @@ def combine():
 
 def About():
     cpright=u'©'.encode('utf-8')
-    ass = showinfo('Developer', 'Desenvolvido por:\n Henrique Martins de Souza \n'+cpright +'2017')
+    ass = showinfo('Developer', 'Desenvolvido por Henrique Martins de Souza \n     Para Sugestões ou ajuda:\n\thsouzadev@gmail.com\n'+'\t'+cpright +'2017'+' H. Souza')
 
 def ConfigOpen():
     if os.path.isfile(completeName):
@@ -127,7 +143,7 @@ helpmenu.add_command(label="About", command=About)
 
 #print str(counter)
 
-w = Label(root, text="PyRouter",font=(20))
+w = Label(root, text="",font=(20))
 w.pack()
 w.grid(row=1, column=3)
 sp = Label(root, text="")
@@ -156,6 +172,6 @@ E4.grid(row=3, column=3)
 root.geometry("700x200")
 
 root.wm_iconbitmap(bitmap = 'icWifi.ico')
-root.title("PyRouter v0.10")
+root.title("PyRouter v0.11")
 root.resizable(width=False, height=False)
 root.mainloop()
