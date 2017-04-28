@@ -33,7 +33,7 @@ if sys.platform == "win32":
 
 
 setup(  name = "PyRouter",
-        version = "0.11",
+        version = "0.12",
         description = "Simple Virtual router made with python 2.x" ,
         options = {"build_exe": build_exe_options, "bdist_msi": bdist_msi_options},
         author="Henrique Martins de Souza",

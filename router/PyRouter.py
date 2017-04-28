@@ -10,6 +10,7 @@ obj.path_folder()
 savepath=str(os.path.join(*["C:/Users/"+getpass.getuser()+"/Documents/PyROUTER/"]))
 completeName=str(os.path.join(savepath+"router.txt"))
 NameRede=str(os.path.join(savepath+"NameWifi.txt"))
+keyRede=str(os.path.join(savepath+"KeyWifi.txt"))
 connLISTA=str(os.path.join(savepath+"conn.txt"))
 def Made_rot():
     namered=str(E3.get())
@@ -26,6 +27,8 @@ def End_rot():
     sw = Label(root, text="                                                                                             ", font=(20))
     sw.pack()
     sw.grid(row=5, column=3, )
+    E3.delete(0,END);
+    E4.delete(0,END);
 def writeconf ():
     namered = str(E3.get())
     EnPass = str(E4.get())
@@ -37,12 +40,20 @@ def writeconf ():
     file = open(NameRede, 'w') #Write  the name of the wifi to .txt
     file.write(NameDef)
     file.close()
+    file = open(keyRede, 'w')  # Write  the key of the wifi to .txt
+    file.write(EnPass)
+    file.close()
 def displaynameonload():
     file = open(NameRede)
     defDisplay = str(file.read())
     sw = Label(root, text="Rede: " + defDisplay, font=(20))
     sw.pack()
     sw.grid(row=5, column=3, )
+    E3.insert(0, defDisplay)
+def displayKeyOnload():
+    file = open(keyRede)
+    defDisplay = str(file.read())
+    E4.insert(0, defDisplay)
 
 
 
@@ -55,6 +66,7 @@ def load():
         subprocess.call('netsh wlan start hostednetwork', shell=True)
         aload = showwarning('Connection start', 'configuracao previamente definida carregada com sucesso\n'+definition)
         displaynameonload();
+        displayKeyOnload();
 
     else:
         warload = showwarning('Warning', 'Configuration files does not exist yet')
@@ -164,6 +176,7 @@ Button(root, text='Carregar', command=load).grid(row=5, column=2, sticky=W, pady
 
 E3 = Entry(root)
 E3["width"]=100
+#E3.delete();
 E3.grid(row=2, column=3)
 E4 = Entry(root)
 E4["width"]=100
@@ -172,6 +185,6 @@ E4.grid(row=3, column=3)
 root.geometry("700x200")
 
 root.wm_iconbitmap(bitmap = 'icWifi.ico')
-root.title("PyRouter v0.11")
+root.title("PyRouter v0.12")
 root.resizable(width=False, height=False)
 root.mainloop()
